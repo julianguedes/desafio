@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreTaskRequest;
+use App\Http\Requests\UpdateTaskRequest;
 
 class TaskController extends Controller
 {
@@ -12,11 +14,9 @@ class TaskController extends Controller
         return Task::all();
     }
 
-    public function store(Request $request)
+    public function store(StoreTaskRequest $request)
     {
-        return Task::create([
-            'task_name'=>$request->task_name
-        ]);
+        $request->validated();
     }
 
     public function show(Task $task)
@@ -24,11 +24,10 @@ class TaskController extends Controller
         return $task;
     }
 
-    public function update(Request $request, Task $task)
+    public function update(Request $request, UpdateTaskRequest $task)
     {
-        $task->update([
-            'task_name'=>$request->task_name,
-        ]);
+        $request->validated();
+
         return $task;
     }
     

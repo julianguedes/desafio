@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Address;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreAddressRequest;
+use App\Http\Requests\UpdateAddressRequest;
 
 class AddressController extends Controller
 {
@@ -15,13 +16,7 @@ class AddressController extends Controller
 
     public function store(StoreAddressRequest $request)
     {
-        return Address::create([
-            'street'=>$request->street,
-            'number'=>$request->number,
-            'city'=>$request->city,
-            'state'=>$request->state,
-            'user_id'=>$request->user_id
-        ]);
+        $request->validated();
     }
 
     public function show(Address $address)
@@ -29,14 +24,9 @@ class AddressController extends Controller
         return $address;
     }
 
-    public function update(Request $request, Address $address)
+    public function update(Request $request, UpdateAddressRequest $address)
     {
-        $address->update([
-            'street'=>$request->street,
-            'number'=>$request->number,
-            'city'=>$request->city,
-            'state'=>$request->state,
-        ]);
+        $request->validated()->safe()->except(['user_id']);
 
         return $address;
     }
