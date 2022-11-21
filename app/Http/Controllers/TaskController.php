@@ -43,7 +43,7 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         return response()->json([
-            'status' => 204],
-            204);
+            'status' => 204
+         ], 204);
     }
 }

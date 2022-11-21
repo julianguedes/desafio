@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Address;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreAddressRequest;
 
 class AddressController extends Controller
 {
@@ -12,7 +13,7 @@ class AddressController extends Controller
         return Address::all();
     }
 
-    public function store(Request $request)
+    public function store(StoreAddressRequest $request)
     {
         return Address::create([
             'street'=>$request->street,
@@ -30,16 +31,21 @@ class AddressController extends Controller
 
     public function update(Request $request, Address $address)
     {
-        return $address->update([
+        $address->update([
             'street'=>$request->street,
             'number'=>$request->number,
             'city'=>$request->city,
             'state'=>$request->state,
         ]);
+
+        return $address;
     }
 
     public function destroy(Address $address)
     {
-        return $address->delete();
+        return response()->json([
+            'status' => 204
+         ], 204);
     }
+
 }

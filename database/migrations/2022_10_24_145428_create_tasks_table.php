@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('task_name');
             $table->timestamps();
+            $table->foreignId('user_id')->constrained('users', 'id');
         });
     }
 

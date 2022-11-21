@@ -35,15 +35,18 @@ class UserController extends Controller
     
     public function update(Request $request, User $user)
     {
-        return $user->update([
+        $user->update([
             'name'=>$request->name,
             'email'=>$request->email,
             'age'=>$request->age
         ]);
+        return $user;
     }
 
     public function destroy(User $user)
     {
-        return $user->delete();
+        return response()->json([
+            'status' => 204
+         ], 204);
     }
 }

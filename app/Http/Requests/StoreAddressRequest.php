@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCadastroClienteRequest extends FormRequest
+class StoreAddressRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class StoreCadastroClienteRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class StoreCadastroClienteRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'street' => ['required', 'string'],
+            'number' => ['required', 'integer', 'gt:0'],
+            'city' => ['required', 'string'],
+            'state' => ['required', 'string'],
+            'user_id' => ['required', 'integer', 'exists:users,id']
         ];
     }
 }
