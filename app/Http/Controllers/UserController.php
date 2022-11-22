@@ -16,7 +16,7 @@ class UserController extends Controller
 
     public function store(StoreUserRequest $request)
     {
-        $request->validated();
+        return User::create($request->validated());
     }
 
     public function show(User $user)
@@ -31,9 +31,9 @@ class UserController extends Controller
     
     public function update(Request $request, UpdateUserRequest $user)
     {
-        $request->validated()->safe()->except(['password', 'sex']);
+       $user->update($request->safe()->except(['password', 'sex']));
+       return $user;
 
-        return $user;
     }
 
     public function destroy(User $user)

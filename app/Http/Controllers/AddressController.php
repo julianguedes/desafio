@@ -16,7 +16,7 @@ class AddressController extends Controller
 
     public function store(StoreAddressRequest $request)
     {
-        $request->validated();
+        return Address::create($request->validated());
     }
 
     public function show(Address $address)
@@ -26,8 +26,7 @@ class AddressController extends Controller
 
     public function update(Request $request, UpdateAddressRequest $address)
     {
-        $request->validated()->safe()->except(['user_id']);
-
+        $address->update($request->safe()->except(['user_id']));
         return $address;
     }
 
