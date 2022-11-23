@@ -24,7 +24,8 @@ class StoreTaskRequest extends FormRequest
     public function rules()
     {
         return [
-            'task_name' =>['required', 'string']
+            'task_name' => ['required', 'string'],
+            'user_id' => ['required', 'exists:users,id'],
         ];
     }
 }

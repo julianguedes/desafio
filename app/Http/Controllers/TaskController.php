@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Task;
-use Illuminate\Http\Request;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 
@@ -24,13 +23,13 @@ class TaskController extends Controller
         return $task;
     }
 
-    public function update(Request $request, UpdateTaskRequest $task)
+    public function update(Task $task, UpdateTaskRequest $request)
     {
         $task->update($request->validated());
         return $task;
     }
-    
-    public function taskCompleted(Request $request, Task $task)
+
+    public function taskCompleted(Task $task)
     {
         $task->update([
             'completed' => true
@@ -40,8 +39,9 @@ class TaskController extends Controller
 
     public function destroy(Task $task)
     {
+        $response = $task->delete();
         return response()->json([
-            'status' => 204
-         ], 204);
+            'message' => $response ? 'Deletado' : 'Erro',
+         ], $response ? 204 : 500);
     }
 }

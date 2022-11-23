@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 
@@ -28,18 +27,18 @@ class UserController extends Controller
     {
         return User::select('email')->get();
     }
-    
-    public function update(Request $request, UpdateUserRequest $user)
-    {
-       $user->update($request->safe()->except(['password', 'sex']));
-       return $user;
 
+    public function update(UpdateUserRequest $request, User $user)
+    {
+       $user->update($request->validated());
+       return $user;
     }
 
     public function destroy(User $user)
     {
+        $response = $user->delete();
         return response()->json([
-            'status' => 204
-         ], 204);
+            'message' => $response ? 'Deletado' : 'Erro',
+        ], $response ? 204 : 500);
     }
 }
