@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
-use Illuminate\Http\Request;
 use App\Http\Requests\StoreAddressRequest;
 use App\Http\Requests\UpdateAddressRequest;
 
@@ -24,17 +23,18 @@ class AddressController extends Controller
         return $address;
     }
 
-    public function update(Request $request, UpdateAddressRequest $address)
+    public function update(UpdateAddressRequest $request, Address $address)
     {
-        $address->update($request->safe()->except(['user_id']));
+        $address->update($request->validated());
         return $address;
     }
 
     public function destroy(Address $address)
     {
+        $response = $address->delete();
         return response()->json([
-            'status' => 204
-         ], 204);
+            'message' => $response ? 'Deletado' : 'Erro',
+        ], $response ? 204 : 500);
     }
 
 }
