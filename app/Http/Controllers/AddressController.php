@@ -10,7 +10,7 @@ class AddressController extends Controller
 {
     public function index()
     {
-        return Address::all();
+        Address::all()->orderBy('street', 'number');
     }
 
     public function store(StoreAddressRequest $request)

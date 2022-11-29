@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        return User::all();
+        User::all()->orderBy('name')->where('age', '>', 20);
     }
 
     public function store(StoreUserRequest $request)
