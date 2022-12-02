@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 
+
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        User::all()->orderBy('name')->where('age', '>', 20);
+        return User::where('name', 'ILIKE', '%'. $request->name .'%')->latest()->get();
     }
 
     public function store(StoreUserRequest $request)
@@ -38,7 +41,13 @@ class UserController extends Controller
     {
         $response = $user->delete();
         return response()->json([
-            'message' => $response ? 'Deletado' : 'Erro',
+            'message' => $response ? 'Usuário deletado com sucesso!' : 'Ocorreu um erro.',
         ], $response ? 204 : 500);
+    }
+
+    public function showUserInfos(User $user)
+    {
+        return $user->load(['address', 'tasks']);
+
     }
 }

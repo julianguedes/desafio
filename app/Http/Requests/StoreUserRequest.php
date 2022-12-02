@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -28,8 +29,8 @@ class StoreUserRequest extends FormRequest
             'name' => ['required', 'string'],
             'email' => ['required', 'string'],
             'password' => ['required', Password::defaults()],
-            'sex' => ['required', 'string'],
-            'genre' => ['required', 'integer', 'gt:0'],
+            'gender' => ['required', 'alpha', Rule::in(['male', 'female'])],
+            'age' => ['required', 'integer']
         ];
     }
 }

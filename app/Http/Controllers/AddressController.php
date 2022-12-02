@@ -3,14 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Address;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreAddressRequest;
 use App\Http\Requests\UpdateAddressRequest;
 
 class AddressController extends Controller
 {
-    public function index()
+    public function index(Request $request)
+    //                        ('Field', 'operator', 'valor')
+    //                          ('Filed',5)  operator  =
     {
-        Address::all()->orderBy('street', 'number');
+        return Address::where('number', '>', '0')->orWhere('street', 'ILIKE', '%' . $request->like . '%')->orderBy('created_at', 'desc')->get();
     }
 
     public function store(StoreAddressRequest $request)
@@ -33,7 +37,7 @@ class AddressController extends Controller
     {
         $response = $address->delete();
         return response()->json([
-            'message' => $response ? 'Deletado' : 'Erro',
+            'message' => $response ? 'Endereço deletado com sucesso!' : 'Ocorreu um erro.',
         ], $response ? 204 : 500);
     }
 
