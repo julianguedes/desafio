@@ -14,7 +14,20 @@ class AddressController extends Controller
     //                        ('Field', 'operator', 'valor')
     //                          ('Filed',5)  operator  =
     {
-        return Address::where('number', '>', '0')->orWhere('street', 'ILIKE', '%' . $request->like . '%')->orderBy('created_at', 'desc')->get();
+        return Address::
+            when(isset($request->number), function($query) use($request) 
+            {
+                 $query->where('number', $request->number);
+            })
+            ->when($request->has('street'), function($query) use($request) 
+            {
+                 $query->where('street', 'ILIKE', '%' . $request->street . '%');
+            })
+            ->when($request->has('order_by'), function($query) use($request) 
+            {
+                 $query->orderBy('created_at', $request->order_by);
+            })
+            ->get();
     }
 
     public function store(StoreAddressRequest $request)
