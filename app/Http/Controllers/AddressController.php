@@ -15,7 +15,7 @@ class AddressController extends Controller
     //                          ('Filed',5)  operator  =
     {
         return Address::
-            when(isset($request->number), function($query) use($request) 
+            when($request->number, function($query) use($request) 
             {
                  $query->where('number', $request->number);
             })

@@ -25,7 +25,8 @@ class StoreTaskRequest extends FormRequest
     {
         return [
             'task_name' => ['required', 'string'],
-            'user_id' => ['required', 'integer', 'exists:users,id']
+            'user_id' => ['required', 'integer', 'exists:users,id'],
+            'priority' => ['required','integer']
         ];
     }
 }

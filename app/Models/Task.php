@@ -13,7 +13,8 @@ class Task extends Model
     [
         'task_name',
         'completed',
-        'user_id'
+        'user_id',
+        'priority'
     ];
 
     public function user()

@@ -13,7 +13,11 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        return User::where('name', 'ILIKE', '%'. $request->name .'%')->latest()->get();
+        return User::when($request->name, function($query) use($request)
+        {
+            $query->where('name', 'ILIKE', '%'. $request->name .'%');
+        })
+        ->latest()->get();
     }
 
     public function store(StoreUserRequest $request)

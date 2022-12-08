@@ -12,7 +12,11 @@ class TaskController extends Controller
 {
     public function index(Request $request)
     {
-        return Task::where('task_name', 'ILIKE', '%' . $request->like . '%')->orderBy('created_at', 'desc')->get();
+        return Task::where('task_name', 'ILIKE', '%' . $request->like . '%')
+                    ->where('priority', '>', 5)
+                    ->orWhere('priority', '<', 10)
+                    ->orderBy('created_at', $request->order_by)
+                    ->get();
     }
 
     public function store(StoreTaskRequest $request)
