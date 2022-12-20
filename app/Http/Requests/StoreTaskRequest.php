@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Task;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreTaskRequest extends FormRequest
@@ -26,7 +27,7 @@ class StoreTaskRequest extends FormRequest
         return [
             'task_name' => ['required', 'string'],
             'user_id' => ['required', 'integer', 'exists:users,id'],
-            'priority' => ['required','integer']
+            'priority' => ['required','integer', 'between:' . Task::MIN_PRIORITY . ',' . Task::MAX_PRIORITY]
         ];
     }
 }

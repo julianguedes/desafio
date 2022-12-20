@@ -13,10 +13,13 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         return Task::where('task_name', 'ILIKE', '%' . $request->like . '%')
-                    ->where('priority', '>', 5)
-                    ->orWhere('priority', '<', 10)
-                    ->orderBy('created_at', $request->order_by)
-                    ->get();
+            ->where(function($query) use($request){ 
+                $query
+                    ->where('priority', '>=', $request->min_priority)
+                    ->orWhere('priority', '<=', $request->max_priority);
+            })
+            ->orderBy('created_at', $request->order_by)
+            ->get();
     }
 
     public function store(StoreTaskRequest $request)

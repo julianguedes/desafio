@@ -9,6 +9,9 @@ class Task extends Model
 {
     use HasFactory;
 
+    const MAX_PRIORITY = 100;
+    const MIN_PRIORITY = 0;
+
     protected $fillable =
     [
         'task_name',
